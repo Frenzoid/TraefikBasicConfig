@@ -1,0 +1,36 @@
+# Traefik 2 (2.0.7) config file.
+
+# Enables accesslog
+[accessLog]
+
+# Providers (platform which traefik will connect with)
+[providers]
+  [providers.docker]
+    exposedByDefault = false # (disable automatic rules for running containers)
+
+# Entrypoints (exposed ports that traefik will listen to trough tcp)
+[entryPoints]
+  [entryPoints.web]
+    address = ":80"
+
+  [entryPoints.websecure]
+    address = ":443"
+
+# Api (api and dashboard (automatically exposed on port 8080))
+[api]
+  insecure = true
+  dashboard = true
+
+# Acme (ACME config with the basic le (Lets Encrypt) config, domains will be specified on each container.
+[certificatesresolvers.le.acme]
+  email = "youremail@mailprovider.com"
+  storage = "acme.json"
+  tlschallenge = "true"
+
+    [certificatesresolvers.le.acme.httpChallenge]
+    entryPoint = "web"
+    
+    # dnsChallege is not mandatory but it can be used for wildcard certificates.
+    [certificatesResolvers.le.acme.dnsChallenge]
+    provider = "digitalocean"
+    delayBeforeCheck = 5
