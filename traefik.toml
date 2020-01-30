@@ -3,11 +3,13 @@
 # Enables accesslog
 [accessLog]
 
-# Providers (platform which traefik will connect with)
+# Providers (platform which traefik will connect with).
 [providers]
   [providers.docker]
-    exposedByDefault = false # (disable automatic rules for running containers)
+    exposedByDefault = false # Disable automatic rules for running containers. Used to avoid un-used rules, you can enable it if youre curious tho.
+    endpoint = "unix:///var/run/docker.sock" # links the docker socket to traefik. Used to allow traefik to manage docker.
 
+ 
 # Entrypoints (exposed ports that traefik will listen to trough tcp)
 [entryPoints]
   [entryPoints.web]
@@ -16,12 +18,12 @@
   [entryPoints.websecure]
     address = ":443"
 
-# Api (api and dashboard (automatically exposed on port 8080))
+# Api (api and traefik's dashboard (automatically exposed on port 8080))
 [api]
   insecure = true
   dashboard = true
 
-# Acme (ACME config with the basic le (Lets Encrypt) config, domains will be specified on each container.
+# Acme (ACME config with the basic le (Lets Encrypt) config, domains will be specified on each container via labels, or here.
 [certificatesresolvers.le.acme]
   email = "youremail@mailprovider.com"
   storage = "acme.json"
