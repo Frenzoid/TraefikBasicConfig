@@ -26,7 +26,7 @@
 # Acme (ACME config with the basic le (Lets Encrypt) config, domains will be specified on each container via labels, or here.
 [certificatesresolvers.le.acme]
   email = "youremail@mailprovider.com"
-  storage = "acme.json"
+  storage = "acme.json" # Path where our acme file will be generated, in this case "./acme.json".
   tlschallenge = "true"
 
     [certificatesresolvers.le.acme.httpChallenge]
